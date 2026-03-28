@@ -53,4 +53,3 @@ Deluxe Power = 隊長 × 4 + 擅長成員數 × 2 + 不擅長成員數 × 1
 ## 相關連結
 
 - [maimai 攻略 Wiki (gamerch)](https://gamerch.com/maimai/)
-- [GitHub 專案頁面](https://github.com/xydesu/chiho-calculator/)
