@@ -1,10 +1,10 @@
 # 移動距離計算機
 
-https://xingyantw.github.io/chiho-calculator/
+https://xydesu.github.io/chiho-calculator/
 
 ## 預覽
 
-![畫面預覽](https://raw.githubusercontent.com/XingYanTW/chiho-calculator/refs/heads/main/docs/MainUI.png)
+![畫面預覽](https://raw.githubusercontent.com/xydesu/chiho-calculator/refs/heads/main/docs/MainUI.png)
 
 ---
 
