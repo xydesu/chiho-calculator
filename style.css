@@ -51,6 +51,47 @@ h1 {
   flex: 2 1 320px;
 }
 
+#darkModeBtn {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 1001;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#darkModeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+#memberSelectBlock .member-card:first-child img {
+  border: 2px solid #007bff;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 32px;
+  color: #888;
+  font-size: 14px;
+}
+
 .button-group {
   display: flex;
   justify-content: center;
@@ -180,33 +221,15 @@ body.dark-mode #calculateBtn:hover {
 }
 
 body.dark-mode #darkModeBtn {
-  position: fixed;
-  top: 22px;
-  right: 22px;
-  z-index: 1001;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: #e9ecef;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-body.dark-mode #darkModeBtn:hover {
-  background: #d0e6ff;
-}
-
-body.dark-mode #darkModeBtn {
   background: #23272f;
 }
 
 body.dark-mode #darkModeBtn:hover {
   background: #2d3a4a;
+}
+
+.footer a {
+  color: #007bff;
 }
 
 body.dark-mode a {

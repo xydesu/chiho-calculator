@@ -1,8 +1,9 @@
+const CREDIT_COST = 100; // credits per accelerator ticket unit
+
 function calculate() {
   const leader = 1;
   let fav = 0, unfav = 0;
-  const selects = document.querySelectorAll('.member-type');
-  selects.forEach(sel => {
+  document.querySelectorAll('.member-type').forEach(sel => {
     if (sel.checked) fav++;
     else unfav++;
   });
@@ -15,19 +16,19 @@ function calculate() {
   const perUnitPrice = parseInt(document.getElementById('perUnitPrice').value) || 0;
   const targetDistance = parseInt(document.getElementById('targetDistance').value) || 0;
 
-  const deluxePower = leader * 4 + fav * 2 + unfav * 1;
+  const deluxePower = leader * 4 + fav * 2 + unfav;
   const totalBonus = songBonus + playBonus;
 
   const distance = Math.ceil((deluxePower + totalBonus) * trackCount * ticketMultiplier);
 
-  const totalCost = perUnitPrice + ticketCreditCost*100;
+  const totalCost = perUnitPrice + ticketCreditCost * CREDIT_COST;
 
-  const pricePerKm = (distance > 0) ? Math.ceil(totalCost / distance) : 0;
+  const pricePerKm = distance > 0 ? Math.ceil(totalCost / distance) : 0;
 
-  const needUnitsRaw = targetDistance / distance;
+  const needUnitsRaw = distance > 0 ? targetDistance / distance : 0;
   const needUnits = Math.ceil(needUnitsRaw);
 
-  const totalCostTarget = (perUnitPrice + ticketCreditCost*100)*needUnits;
+  const totalCostTarget = totalCost * needUnits;
 
   const formulaString =
     `(${deluxePower} + ${totalBonus}) × 曲目數(${trackCount}) × 票券倍率(${ticketMultiplier}) = ${distance} Km`;
@@ -58,10 +59,11 @@ function calculate() {
 總花費：${totalCostTarget}$
 `;
 
-  document.getElementById('result').textContent = (logString.trim());
+  const resultEl = document.getElementById('result');
+  resultEl.textContent = logString.trim();
 
   // 自動捲動到結果區塊
-  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   // 儲存最新結果
   localStorage.setItem('lastResult', logString.trim());
@@ -69,6 +71,49 @@ function calculate() {
 
 document.getElementById('calculateBtn').addEventListener('click', calculate);
 
-document.getElementById('logBtn')?.addEventListener('click', () => {
-  alert(document.getElementById('result').textContent);
+// ── Dark mode ──────────────────────────────────────────────────────────────
+const darkBtn = document.getElementById('darkModeBtn');
+const iconMoon = document.getElementById('icon-moon');
+const iconSun = document.getElementById('icon-sun');
+
+function applyDarkMode(dark) {
+  document.body.classList.toggle('dark-mode', dark);
+  iconMoon.style.display = dark ? 'none' : 'block';
+  iconSun.style.display = dark ? 'block' : 'none';
+}
+
+// localStorage takes precedence over system preference
+const savedDark = localStorage.getItem('darkMode');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyDarkMode(savedDark !== null ? savedDark === '1' : prefersDark);
+
+darkBtn.addEventListener('click', function () {
+  const isDark = !document.body.classList.contains('dark-mode');
+  applyDarkMode(isDark);
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+});
+
+// ── Form persistence ───────────────────────────────────────────────────────
+function saveForm() {
+  const members = [];
+  document.querySelectorAll('.member-type').forEach(cb => members.push(cb.checked ? 1 : 0));
+  localStorage.setItem('members', JSON.stringify(members));
+  ['songBonus', 'playBonus', 'trackCount', 'ticketType', 'perUnitPrice', 'targetDistance']
+    .forEach(id => localStorage.setItem(id, document.getElementById(id).value));
+}
+
+function loadForm() {
+  const members = JSON.parse(localStorage.getItem('members') || '[1,1,1,1]');
+  document.querySelectorAll('.member-type').forEach((cb, i) => { cb.checked = !!members[i]; });
+  ['songBonus', 'playBonus', 'trackCount', 'ticketType', 'perUnitPrice', 'targetDistance']
+    .forEach(id => {
+      const val = localStorage.getItem(id);
+      if (val !== null) document.getElementById(id).value = val;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  loadForm();
+  document.querySelectorAll('.member-type, #songBonus, #playBonus, #trackCount, #ticketType, #perUnitPrice, #targetDistance')
+    .forEach(el => el.addEventListener('change', saveForm));
 });
