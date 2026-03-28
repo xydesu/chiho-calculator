@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="darkModeBtn" type="button" title="切換深色模式" style="position:fixed;top:22px;right:22px;z-index:1001;width:44px;height:44px;border-radius:50%;border:none;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s;">
-    <span id="darkModeIcon" style="font-size:22px;color:#333;display:flex;align-items:center;justify-content:center;">
+  <button id="darkModeBtn" type="button" title="切換深色模式">
+    <span id="darkModeIcon">
       <svg id="icon-moon" width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
         <path d="M17.5 12.5A7.5 7.5 0 0 1 9.5 4.5a.7.7 0 0 0-.8-.9A8.5 8.5 0 1 0 18.4 13.3a.7.7 0 0 0-.9-.8Z" fill="#333"/>
       </svg>
@@ -31,17 +31,17 @@
     <h1>移動距離計算機</h1>
     <div class="input-group">
       <label>成員：</label>
-      <div id="memberSelectBlock" style="display:flex;gap:10px;">
+      <div id="memberSelectBlock">
         <div class="member-card">
           <div>隊長</div>
-          <img src="./assets/icon_chara_none.png" alt="leader" style="width:48px;height:48px;border-radius:50%;border:2px solid #007bff;">
+          <img src="./assets/icon_chara_none.png" alt="leader">
           <div style="margin-top:4px;">
             <span style="color:#007bff;font-weight:bold;">固定擅長</span>
           </div>
         </div>
         <div class="member-card">
           <div>成員2</div>
-          <img src="./assets/icon_chara_none.png" alt="member2" style="width:48px;height:48px;border-radius:50%;">
+          <img src="./assets/icon_chara_none.png" alt="member2">
           <div style="margin-top:6px;">
             <label style="font-size:12px;">
               <input type="checkbox" class="member-type" data-index="0" checked>
@@ -51,7 +51,7 @@
         </div>
         <div class="member-card">
           <div>成員3</div>
-          <img src="./assets/icon_chara_none.png" alt="member3" style="width:48px;height:48px;border-radius:50%;">
+          <img src="./assets/icon_chara_none.png" alt="member3">
           <div style="margin-top:6px;">
             <label style="font-size:12px;">
               <input type="checkbox" class="member-type" data-index="1" checked>
@@ -61,7 +61,7 @@
         </div>
         <div class="member-card">
           <div>成員4</div>
-          <img src="./assets/icon_chara_none.png" alt="member4" style="width:48px;height:48px;border-radius:50%;">
+          <img src="./assets/icon_chara_none.png" alt="member4">
           <div style="margin-top:6px;">
             <label style="font-size:12px;">
               <input type="checkbox" class="member-type" data-index="2" checked>
@@ -71,7 +71,7 @@
         </div>
         <div class="member-card">
           <div>成員5</div>
-          <img src="./assets/icon_chara_none.png" alt="member5" style="width:48px;height:48px;border-radius:50%;">
+          <img src="./assets/icon_chara_none.png" alt="member5">
           <div style="margin-top:6px;">
             <label style="font-size:12px;">
               <input type="checkbox" class="member-type" data-index="3" checked>
@@ -126,80 +126,13 @@
     <div id="result" class="result"></div>
   </div>
 
-  <div style="text-align:center;margin-top:32px;color:#888;font-size:14px;">
+  <div class="footer">
     <span>maimai DX 移動距離計算機</span>
     <br>
-    <span>專案連結：<a href="https://github.com/XingYanTW/chiho-calculator/" target="_blank" style="color:#007bff;">GitHub</a></span>
+    <span>專案連結：<a href="https://github.com/xydesu/chiho-calculator/" target="_blank">GitHub</a></span>
     <br>
-    <span>相關連結：<a href="https://gamerch.com/maimai/" target="_blank" style="color:#007bff;">maimai 攻略Wiki (gamerch)</a></span>
+    <span>相關連結：<a href="https://gamerch.com/maimai/" target="_blank">maimai 攻略Wiki (gamerch)</a></span>
   </div>
   <script src="script.js"></script>
-  <script>
-    const darkBtn = document.getElementById('darkModeBtn');
-    const iconMoon = document.getElementById('icon-moon');
-    const iconSun = document.getElementById('icon-sun');
-
-    // 自動偵測系統/瀏覽器深色模式
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark-mode');
-      darkBtn.style.background = '#23272f';
-      iconMoon.style.display = 'none';
-      iconSun.style.display = 'block';
-    }
-
-    // 儲存/載入 dark mode 狀態
-    if (localStorage.getItem('darkMode') === '1') {
-      document.body.classList.add('dark-mode');
-      darkBtn.style.background = '#23272f';
-      iconMoon.style.display = 'none';
-      iconSun.style.display = 'block';
-    }
-    darkBtn.addEventListener('click', function() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      if(isDark) {
-        darkBtn.style.background = '#23272f';
-        iconMoon.style.display = 'none';
-        iconSun.style.display = 'block';
-        localStorage.setItem('darkMode', '1');
-      } else {
-        darkBtn.style.background = '#e9ecef';
-        iconMoon.style.display = 'block';
-        iconSun.style.display = 'none';
-        localStorage.setItem('darkMode', '0');
-      }
-    });
-
-    // 儲存/載入表單資料
-    function saveForm() {
-      // 成員
-      const members = [];
-      document.querySelectorAll('.member-type').forEach(cb => members.push(cb.checked ? 1 : 0));
-      localStorage.setItem('members', JSON.stringify(members));
-      // 其他欄位
-      localStorage.setItem('songBonus', document.getElementById('songBonus').value);
-      localStorage.setItem('playBonus', document.getElementById('playBonus').value);
-      localStorage.setItem('trackCount', document.getElementById('trackCount').value);
-      localStorage.setItem('ticketType', document.getElementById('ticketType').value);
-      localStorage.setItem('perUnitPrice', document.getElementById('perUnitPrice').value);
-      localStorage.setItem('targetDistance', document.getElementById('targetDistance').value);
-    }
-    function loadForm() {
-      // 成員
-      const members = JSON.parse(localStorage.getItem('members') || '[1,1,1,1]');
-      document.querySelectorAll('.member-type').forEach((cb, i) => cb.checked = !!members[i]);
-      // 其他欄位
-      if(localStorage.getItem('songBonus')) document.getElementById('songBonus').value = localStorage.getItem('songBonus');
-      if(localStorage.getItem('playBonus')) document.getElementById('playBonus').value = localStorage.getItem('playBonus');
-      if(localStorage.getItem('trackCount')) document.getElementById('trackCount').value = localStorage.getItem('trackCount');
-      if(localStorage.getItem('ticketType')) document.getElementById('ticketType').value = localStorage.getItem('ticketType');
-      if(localStorage.getItem('perUnitPrice')) document.getElementById('perUnitPrice').value = localStorage.getItem('perUnitPrice');
-      if(localStorage.getItem('targetDistance')) document.getElementById('targetDistance').value = localStorage.getItem('targetDistance');
-    }
-    // 綁定事件
-    window.addEventListener('DOMContentLoaded', loadForm);
-    document.querySelectorAll('.member-type, #songBonus, #playBonus, #trackCount, #ticketType, #perUnitPrice, #targetDistance')
-      .forEach(el => el.addEventListener('change', saveForm));
-  </script>
 </body>
 </html>
