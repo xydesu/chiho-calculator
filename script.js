@@ -113,7 +113,24 @@ function loadForm() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  // 1. 先從 localStorage 讀取使用者上次填寫的資料
   loadForm();
+
+  // 2. 剖析網址參數 (URL Parameters)
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetParam = urlParams.get('target');
+
+  // 3. 如果網址帶有 ?target=XXX，則覆蓋原本的數值，並自動執行計算
+  if (targetParam !== null && !isNaN(targetParam)) {
+    const targetInput = document.getElementById('targetDistance');
+    if (targetInput) {
+      targetInput.value = targetParam;
+      saveForm();  // 同步更新到 localStorage
+      calculate(); // 自動觸發計算與捲動
+    }
+  }
+
+  // 4. 綁定欄位變更事件
   document.querySelectorAll('.member-type, #songBonus, #playBonus, #trackCount, #ticketType, #perUnitPrice, #targetDistance')
     .forEach(el => el.addEventListener('change', saveForm));
 });
